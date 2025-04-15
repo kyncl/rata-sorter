@@ -1,5 +1,5 @@
 use color_eyre::Result;
-use crossterm::event::KeyEvent;
+use crossterm::event::{KeyCode, KeyEvent};
 use ratatui::prelude::Rect;
 use serde::{Deserialize, Serialize};
 use tokio::sync::mpsc;
@@ -124,6 +124,29 @@ impl App {
                 // If the key was not handled as a single key action,
                 // then consider it for multi-key combinations.
                 self.last_tick_key_events.push(key);
+
+                match key.code {
+                    KeyCode::Enter => {
+                        let sorter = &self.shared_data.sorting_algorithms[0];
+                        self.shared_data.info = "Sorting".to_string();
+                        sorter
+                            .algorithm
+                            .sort_prepare(&sorter.algorithm, &self.shared_data.array);
+                    }
+                    KeyCode::Up => {
+                        self.shared_data.info = "Up".to_string();
+                    }
+                    KeyCode::Down => {
+                        self.shared_data.info = "Down".to_string();
+                    }
+                    KeyCode::Left => {
+                        self.shared_data.info = "Left".to_string();
+                    }
+                    KeyCode::Right => {
+                        self.shared_data.info = "Right".to_string();
+                    }
+                    _ => {}
+                }
 
                 // Check for multi-key combinations
                 if let Some(action) = keymap.get(&self.last_tick_key_events) {

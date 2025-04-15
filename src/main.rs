@@ -8,6 +8,7 @@ mod app;
 mod async_template;
 mod components;
 mod shared_data;
+mod sorting;
 
 #[tokio::main]
 async fn main() -> Result<()> {

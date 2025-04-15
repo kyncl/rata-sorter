@@ -1,3 +1,5 @@
+use std::sync::Arc;
+
 use color_eyre::Result;
 use ratatui::{prelude::*, widgets::*};
 use tokio::sync::{Semaphore, mpsc::UnboundedSender};
@@ -46,7 +48,25 @@ impl Component for Home {
     }
 
     fn draw(&mut self, frame: &mut Frame, area: Rect, shared_data: &mut SharedData) -> Result<()> {
-        frame.render_widget(Paragraph::new("hello world"), area);
+        let arr_rwlock_clone = Arc::clone(&shared_data.array);
+        let render_arr = arr_rwlock_clone.read().unwrap().clone();
+        let mut render_result = vec![];
+        for value in render_arr {
+            render_result.push(("--", value as u64));
+        }
+
+        let array_bar_chart = BarChart::default()
+            .bar_width(2)
+            .bar_gap(1)
+            .group_gap(0)
+            .label_style(Style::new().white())
+            .block(
+                Block::default()
+                    .borders(Borders::ALL)
+                    .title(shared_data.info.clone()),
+            )
+            .data(&render_result);
+        frame.render_widget(array_bar_chart, area);
         Ok(())
     }
 }
