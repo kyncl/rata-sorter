@@ -1,18 +1,24 @@
-use std::{
-    sync::{Arc, Mutex, RwLock},
-    time::Duration,
-};
+use std::sync::{Arc, Mutex, RwLock};
 
-use rand::{Rng, rng, seq::SliceRandom};
+use rand::seq::SliceRandom;
 
 #[derive(Clone)]
 pub struct SortingAlgorithm {
     pub name: String,
     pub algorithm: Box<dyn Sorter>,
+    pub description: String,
 }
 impl SortingAlgorithm {
-    pub fn new(name: String, algorithm: Box<dyn Sorter>) -> Self {
-        Self { name, algorithm }
+    pub fn new(name: String, algorithm: Box<dyn Sorter>, description: String) -> Self {
+        Self {
+            name,
+            algorithm,
+            description,
+        }
+    }
+    pub fn refresh(rendering_arr: &Arc<RwLock<Vec<usize>>>, array: &Vec<usize>) {
+        let mut write_guard = rendering_arr.write().unwrap();
+        *write_guard = array.clone();
     }
 }
 
@@ -29,11 +35,6 @@ pub trait Sorter: Send {
         let algorithm_mutex = Arc::new(Mutex::new(specific_algorithm.clone()));
         std::thread::spawn(move || {
             let algorithm_locked = algorithm_mutex.lock().unwrap();
-            /* let mut arr = {
-                let write_guard = arr_rwlock_clone.write().unwrap();
-                write_guard.clone()
-            }; */
-            // algorithm_locked.sort(&mut arr);
             algorithm_locked.sort(&mut arr_rwlock_clone);
         });
     }
@@ -44,21 +45,16 @@ impl Clone for Box<dyn Sorter> {
     }
 }
 
+// This sort is only for debuging
+// Shouldn't be used anywhere
 #[derive(Clone)]
-pub struct TestSort {}
-impl TestSort {
-    pub fn new() -> Self {
-        Self {}
-    }
-}
-impl Sorter for TestSort {
+pub struct DebugSort {}
+impl Sorter for DebugSort {
     fn sort(&self, get_arr: &mut Arc<RwLock<Vec<usize>>>) {
         let mut arr = get_arr.read().unwrap().clone();
         while !arr.is_sorted() {
             arr.shuffle(&mut rand::rng());
-
-            let mut write_guard = get_arr.write().unwrap();
-            *write_guard = arr.clone();
+            SortingAlgorithm::refresh(&get_arr, &arr);
         }
     }
     fn clone_box(&self) -> Box<dyn Sorter> {

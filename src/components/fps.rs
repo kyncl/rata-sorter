@@ -8,6 +8,7 @@ use ratatui::{
     text::Span,
     widgets::Paragraph,
 };
+use terminal_size::{Height, Width, terminal_size};
 
 use crate::{
     async_template::action::Action,
@@ -81,14 +82,24 @@ impl Component for FpsCounter {
     }
 
     fn draw(&mut self, frame: &mut Frame, area: Rect, shared_data: &mut SharedData) -> Result<()> {
-        let [top, _] = Layout::vertical([Constraint::Length(1), Constraint::Min(0)]).areas(area);
-        let message = format!(
-            "{:.2} ticks/sec, {:.2} FPS",
-            self.ticks_per_second, self.frames_per_second
-        );
-        let span = Span::styled(message, Style::new().dim());
-        let paragraph = Paragraph::new(span).right_aligned();
-        frame.render_widget(paragraph, top);
+        if shared_data.debug_mode {
+            let [top, _] =
+                Layout::vertical([Constraint::Length(1), Constraint::Min(0)]).areas(area);
+            let mut terminal_width = 1;
+            let mut terminal_height = 1;
+            let screen_width_heigth = terminal_size();
+            if let Some((Width(w), Height(h))) = screen_width_heigth {
+                terminal_width = w;
+                terminal_height = h;
+            }
+            let message = format!(
+                "{:.2} ticks/sec, {:.2} FPS, {} terminal width, {} terminal height",
+                self.ticks_per_second, self.frames_per_second, terminal_width, terminal_height
+            );
+            let span = Span::styled(message, Style::new().dim());
+            let paragraph = Paragraph::new(span).right_aligned();
+            frame.render_widget(paragraph, top);
+        }
         Ok(())
     }
 }

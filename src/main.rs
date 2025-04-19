@@ -7,6 +7,7 @@ use crate::app::App;
 mod app;
 mod async_template;
 mod components;
+mod frontend;
 mod shared_data;
 mod sorting;
 

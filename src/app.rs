@@ -127,23 +127,51 @@ impl App {
 
                 match key.code {
                     KeyCode::Enter => {
-                        let sorter = &self.shared_data.sorting_algorithms[0];
-                        self.shared_data.info = "Sorting".to_string();
-                        sorter
-                            .algorithm
-                            .sort_prepare(&sorter.algorithm, &self.shared_data.array);
+                        if self.shared_data.show_pp {
+                            let sorter = &self
+                                .shared_data
+                                .sorting_algorithms
+                                .get(self.shared_data.pp_i.selected().unwrap_or(0));
+                            if sorter.is_some() {
+                                let sorter = sorter.unwrap();
+                                self.shared_data.info = "Sorting".to_string();
+                                sorter
+                                    .algorithm
+                                    .sort_prepare(&sorter.algorithm, &self.shared_data.array);
+                                self.shared_data.show_pp = false;
+                                self.shared_data.pp_i.select(Some(0));
+                            }
+                        } else {
+                            if let Some(tab_selection) =
+                                self.shared_data.tabs.get(self.shared_data.tabs_i)
+                            {
+                                match tab_selection.as_str() {
+                                    "sort" => self.shared_data.show_pp = true,
+                                    "reset" => self.shared_data.reset(),
+                                    "quit" => self.should_quit = true,
+                                    _ => {}
+                                }
+                            }
+                        }
+                    }
+                    KeyCode::Esc => {
+                        self.shared_data.show_pp = false;
                     }
                     KeyCode::Up => {
-                        self.shared_data.info = "Up".to_string();
+                        if self.shared_data.show_pp {
+                            self.shared_data.list_previous();
+                        }
                     }
                     KeyCode::Down => {
-                        self.shared_data.info = "Down".to_string();
+                        if self.shared_data.show_pp {
+                            self.shared_data.list_next();
+                        }
                     }
                     KeyCode::Left => {
-                        self.shared_data.info = "Left".to_string();
+                        self.shared_data.tab_previous();
                     }
                     KeyCode::Right => {
-                        self.shared_data.info = "Right".to_string();
+                        self.shared_data.tab_next();
                     }
                     _ => {}
                 }
@@ -166,6 +194,13 @@ impl App {
             match action {
                 Action::Tick => {
                     self.last_tick_key_events.drain(..);
+                    let array_check = self.shared_data.array.read().unwrap().clone();
+                    if array_check.is_sorted() {
+                        self.shared_data.is_sorted = true;
+                    }
+                    if self.shared_data.is_sorted {
+                        self.shared_data.info = "Sorted".to_string();
+                    }
                 }
                 Action::Quit => self.should_quit = true,
                 Action::Suspend => self.should_suspend = true,

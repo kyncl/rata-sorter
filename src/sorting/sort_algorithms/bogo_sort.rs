@@ -1,11 +1,5 @@
-# rata-sorter
+use rand::seq::SliceRandom;
 
-[![CI](https://github.com//rata-sorter/workflows/CI/badge.svg)](https://github.com//rata-sorter/actions)
-
-Graphical showcase of sorting algorithms written in Rust.
-
-
-```rust
 use crate::sorting::sorting::{Sorter, SortingAlgorithm};
 use std::{
     sync::{Arc, RwLock},
@@ -13,19 +7,13 @@ use std::{
 };
 
 #[derive(Clone)]
-pub struct NameOfSort {}
-impl Sorter for NameOfSort {
+pub struct BogoSort {}
+impl Sorter for BogoSort {
     fn sort(&self, get_arr: &mut Arc<RwLock<Vec<usize>>>) {
         let mut arr = get_arr.read().unwrap().clone();
         while !arr.is_sorted() {
-            // modification of arr
-            // ...
-            
-            // It's not needed, but in most cases you won't see anything.
+            arr.shuffle(&mut rand::rng());
             std::thread::sleep(Duration::from_millis(1));
-
-            // this call when you need to show how array looks
-            // basically only needed for the rendering
             SortingAlgorithm::refresh(&get_arr, &arr);
         }
     }
@@ -35,5 +23,3 @@ impl Sorter for NameOfSort {
         Box::new(self.clone())
     }
 }
-
-```
