@@ -1,5 +1,4 @@
 use std::{
-    io::Read,
     sync::{Arc, RwLock},
     usize,
 };
@@ -37,7 +36,7 @@ impl SharedData {
             array: Arc::new(RwLock::new(Self::set_array())),
             sorting_algorithms,
             show_indexes: true,
-            debug_mode: true,
+            debug_mode: false,
             tabs,
             tabs_i: 0,
             is_sorted: false,
