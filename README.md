@@ -27,6 +27,7 @@ Graphical showcase of sorting algorithms written in Rust.
 ```bash
 git clone git@github.com:kyncl/rata-sorter.git
 cargo build --release
+cd rata-sorter
 ./target/release/rata-sorter
 ```
 
