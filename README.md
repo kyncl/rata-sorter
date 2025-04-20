@@ -3,18 +3,18 @@
 Graphical showcase of sorting algorithms written in Rust.
 </p>
 
-![BogoSort](url)
+![Main](https://github.com/kyncl/rata-sorter/blob/main/showcase/main.gif?raw=true)
 
 <details>
 <summary><h2>Showcase</h2></summary>
     
 **Bubble sort**|**Selection sort**
 |:--:|:--:|
-![BubbleSort](url)|![SelectionSort](url)
+![BubbleSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/bubble.gif?raw=true)|![SelectionSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/selection.gif?raw=true)
 **Insertion sort**|**Quick sort**
-![InsertionSort](url)|![QuickSort](url)
+![InsertionSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/insertion.gif?raw=true)|![QuickSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/quick.gif?raw=true)
 **Merge sort**|**Bogo sort**
-![MergeSort](url)|![BogoSort](url)
+![MergeSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/merge.gif?raw=true)|![BogoSort](https://github.com/kyncl/rata-sorter/blob/main/showcase/bogo.gif?raw=true)
 
 </details>
 
@@ -89,4 +89,5 @@ SortingAlgorithm::new(
                                                       // best, average and wort possible time complexity
 )
 ```
+
 
