@@ -1,8 +1,8 @@
-use ratatui::{layout::Flex, prelude::*, widgets::*};
+use ratatui::{layout::Flex, prelude::*, style::palette::tailwind::SLATE, widgets::*};
 use std::rc::Rc;
 
 pub enum Sets {
-    Content,
+    // Content,
     HeaderContent,
     HeaderContentFooter,
 }
@@ -21,9 +21,9 @@ impl Frontend {
     ) -> Rc<[Rect]> {
         let lt: Vec<Constraint>;
         match sets {
-            Sets::Content => {
+            /* Sets::Content => {
                 lt = vec![Constraint::Min(1)];
-            }
+            } */
             Sets::HeaderContent => match aligment {
                 LayoutPositioning::Standart => {
                     lt = vec![Constraint::Percentage(15), Constraint::Min(1)];
@@ -45,8 +45,15 @@ impl Frontend {
             .constraints(lt)
             .split(area)
     }
-    pub fn get_popup() {
-        todo!()
+    pub fn get_list_popup<'a>(algorithms_list: Vec<String>) -> List<'a> {
+        let block = Block::default()
+            .borders(Borders::all())
+            .border_type(BorderType::Rounded);
+        List::new(algorithms_list)
+            .block(block)
+            .highlight_style(Style::new().bg(SLATE.c800).add_modifier(Modifier::BOLD))
+            .highlight_symbol(">>\t")
+            .highlight_spacing(HighlightSpacing::WhenSelected)
     }
 
     pub fn get_bar_chart<'a, T>(title: Option<T>, data_set: &'a Vec<(String, u64)>) -> BarChart<'a>

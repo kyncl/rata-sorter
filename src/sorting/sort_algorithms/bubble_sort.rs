@@ -11,11 +11,9 @@ impl Sorter for BubbleSort {
         let mut arr = get_arr.read().unwrap().clone();
         while !arr.is_sorted() {
             for i in 0..arr.len() {
-                if i != arr.len() - 1 {
-                    if arr[i] > arr[i + 1] {
-                        // swap values
-                        arr.swap(i, i + 1);
-                    }
+                if i != arr.len() - 1 && arr[i] > arr[i + 1] {
+                    // swap values
+                    arr.swap(i, i + 1);
                 }
                 std::thread::sleep(Duration::from_millis(1));
                 SortingAlgorithm::refresh(&get_arr, &arr);

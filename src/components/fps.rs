@@ -10,12 +10,9 @@ use ratatui::{
 };
 use terminal_size::{Height, Width, terminal_size};
 
-use crate::{
-    async_template::action::Action,
-    shared_data::{self, SharedData},
-};
+use crate::{async_template::action::Action, shared_data::SharedData};
 
-use super::components::Component;
+use super::components_manager::Component;
 
 #[derive(Debug, Clone, PartialEq)]
 pub struct FpsCounter {

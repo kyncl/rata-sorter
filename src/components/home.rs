@@ -1,11 +1,7 @@
 use color_eyre::Result;
 use ratatui::{
     prelude::*,
-    style::palette::tailwind::SLATE,
-    widgets::{
-        Block, BorderType, Borders, Clear, HighlightSpacing, List, Paragraph, Scrollbar,
-        ScrollbarOrientation, ScrollbarState, Tabs,
-    },
+    widgets::{Block, BorderType, Borders, Clear, Paragraph, Tabs},
 };
 use tokio::sync::mpsc::UnboundedSender;
 
@@ -15,7 +11,7 @@ use crate::{
     shared_data::SharedData,
 };
 
-use super::components::Component;
+use super::components_manager::Component;
 
 #[derive(Default)]
 pub struct Home {
@@ -108,21 +104,20 @@ impl Component for Home {
 
         // popup
         let pp_area = Frontend::get_popup_area(area, 75, 50);
-        let mut algorithms_list = vec![];
-        for algorithm in &shared_data.sorting_algorithms {
-            algorithms_list.push(algorithm.name.clone());
-        }
-        let algorithm_list_wid = List::new(algorithms_list)
-            .block(block.clone())
-            .highlight_style(Style::new().bg(SLATE.c800).add_modifier(Modifier::BOLD))
-            .highlight_symbol(">>\t")
-            .highlight_spacing(HighlightSpacing::WhenSelected);
         let pp_layout = Frontend::get_layout(
             pp_area,
             Direction::Vertical,
             Sets::HeaderContentFooter,
             LayoutPositioning::Standart,
         );
+
+        let algorithms_list: Vec<String> = shared_data
+            .sorting_algorithms
+            .iter()
+            .map(|s| s.name.clone())
+            .collect();
+        let algorithm_list_wid = Frontend::get_list_popup(algorithms_list);
+
         let algorithm = shared_data
             .sorting_algorithms
             .get(shared_data.pp_i.selected().unwrap_or(0));

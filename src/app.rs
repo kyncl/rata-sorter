@@ -11,7 +11,7 @@ use crate::{
         config::Config,
         tui::{Event, Tui},
     },
-    components::{components::Component, fps::FpsCounter, home::Home},
+    components::{components_manager::Component, fps::FpsCounter, home::Home},
     shared_data::SharedData,
 };
 
@@ -141,16 +141,14 @@ impl App {
                                 self.shared_data.show_pp = false;
                                 self.shared_data.pp_i.select(Some(0));
                             }
-                        } else {
-                            if let Some(tab_selection) =
-                                self.shared_data.tabs.get(self.shared_data.tabs_i)
-                            {
-                                match tab_selection.as_str() {
-                                    "sort" => self.shared_data.show_pp = true,
-                                    "reset" => self.shared_data.reset(),
-                                    "quit" => self.should_quit = true,
-                                    _ => {}
-                                }
+                        } else if let Some(tab_selection) =
+                            self.shared_data.tabs.get(self.shared_data.tabs_i)
+                        {
+                            match tab_selection.as_str() {
+                                "sort" => self.shared_data.show_pp = true,
+                                "reset" => self.shared_data.reset(),
+                                "quit" => self.should_quit = true,
+                                _ => {}
                             }
                         }
                     }
