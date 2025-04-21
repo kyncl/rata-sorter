@@ -57,7 +57,7 @@ impl Sorter for NameOfSort {
 
             // this call when you need to show how array looks
             // basically only needed for the rendering
-            SortingAlgorithm::refresh(&get_arr, &arr);
+            SortingAlgorithm::refresh(get_arr, &arr);
         }
     }
 

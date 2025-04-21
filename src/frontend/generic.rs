@@ -56,7 +56,7 @@ impl Frontend {
             .highlight_spacing(HighlightSpacing::WhenSelected)
     }
 
-    pub fn get_bar_chart<'a, T>(title: Option<T>, data_set: &'a Vec<(String, u64)>) -> BarChart<'a>
+    pub fn get_bar_chart<'a, T>(title: Option<T>, data_set: &'a [(String, u64)]) -> BarChart<'a>
     where
         T: Into<String> + Clone,
     {

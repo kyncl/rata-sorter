@@ -1,2 +1,2 @@
 pub mod sort_algorithms;
-pub mod sorting;
+pub mod sorting_struct;

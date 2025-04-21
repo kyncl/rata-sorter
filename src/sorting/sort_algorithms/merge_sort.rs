@@ -1,4 +1,4 @@
-use crate::sorting::sorting::{Sorter, SortingAlgorithm};
+use crate::sorting::sorting_struct::{Sorter, SortingAlgorithm};
 use std::{
     sync::{Arc, RwLock},
     time::Duration,
@@ -40,20 +40,20 @@ impl MergeSort {
                 j += 1;
             }
             std::thread::sleep(Duration::from_millis(12));
-            SortingAlgorithm::refresh(&get_arr, &arr);
+            SortingAlgorithm::refresh(get_arr, arr);
             k += 1;
         }
         while i < left.len() {
             arr[k] = left[i];
             std::thread::sleep(Duration::from_millis(12));
-            SortingAlgorithm::refresh(&get_arr, &arr);
+            SortingAlgorithm::refresh(get_arr, arr);
             i += 1;
             k += 1;
         }
         while j < right.len() {
             arr[k] = right[j];
             std::thread::sleep(Duration::from_millis(12));
-            SortingAlgorithm::refresh(&get_arr, &arr);
+            SortingAlgorithm::refresh(get_arr, arr);
             j += 1;
             k += 1;
         }
@@ -64,7 +64,7 @@ impl Sorter for MergeSort {
         let mut arr = get_arr.read().unwrap().clone();
         MergeSort::merge_sort(&mut arr, get_arr);
         std::thread::sleep(Duration::from_millis(12));
-        SortingAlgorithm::refresh(&get_arr, &arr);
+        SortingAlgorithm::refresh(get_arr, &arr);
     }
 
     // this must be implemented or it won't work

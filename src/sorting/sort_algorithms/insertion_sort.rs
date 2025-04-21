@@ -1,4 +1,4 @@
-use crate::sorting::sorting::{Sorter, SortingAlgorithm};
+use crate::sorting::sorting_struct::{Sorter, SortingAlgorithm};
 use std::{
     sync::{Arc, RwLock},
     time::Duration,
@@ -15,7 +15,7 @@ impl Sorter for InsertionSort {
                 arr.swap(j, j - 1); // Swap the element backward until it is in the correct position
                 j -= 1;
                 std::thread::sleep(Duration::from_millis(1));
-                SortingAlgorithm::refresh(&get_arr, &arr);
+                SortingAlgorithm::refresh(get_arr, &arr);
             }
         }
     }

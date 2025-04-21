@@ -5,7 +5,7 @@ use merge_sort::MergeSort;
 use quick_sort::QuickSort;
 use selection_sort::SelectionSort;
 
-use super::sorting::SortingAlgorithm;
+use super::sorting_struct::SortingAlgorithm;
 
 pub mod bogo_sort;
 pub mod bubble_sort;

@@ -1,9 +1,7 @@
-use crate::sorting::sorting::{Sorter, SortingAlgorithm};
+use crate::sorting::sorting_struct::{Sorter, SortingAlgorithm};
 use std::{
-    isize,
     sync::{Arc, RwLock},
     time::Duration,
-    usize,
 };
 
 #[derive(Clone)]
@@ -21,12 +19,12 @@ impl QuickSort {
             if arr[j as usize] <= pivot {
                 i += 1;
                 arr.swap(i as usize, j as usize);
-                SortingAlgorithm::refresh(&get_arr, &arr);
+                SortingAlgorithm::refresh(get_arr, arr);
                 std::thread::sleep(Duration::from_millis(12));
             }
         }
         arr.swap((i + 1) as usize, high_i as usize);
-        SortingAlgorithm::refresh(&get_arr, &arr);
+        SortingAlgorithm::refresh(get_arr, arr);
         std::thread::sleep(Duration::from_millis(12));
         i + 1
     }
@@ -50,7 +48,7 @@ impl Sorter for QuickSort {
         let mut arr = get_arr.read().unwrap().clone();
         QuickSort::quick_sort(&mut arr, 0, None, get_arr);
         std::thread::sleep(Duration::from_millis(12));
-        SortingAlgorithm::refresh(&get_arr, &arr);
+        SortingAlgorithm::refresh(get_arr, &arr);
     }
 
     // this must be implemented or it won't work

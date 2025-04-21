@@ -1,13 +1,10 @@
-use std::{
-    sync::{Arc, RwLock},
-    usize,
-};
+use std::sync::{Arc, RwLock};
 
 use rand::Rng;
 use ratatui::widgets::ListState;
 use terminal_size::{Height, Width, terminal_size};
 
-use crate::sorting::{sort_algorithms::SortList, sorting::SortingAlgorithm};
+use crate::sorting::{sort_algorithms::SortList, sorting_struct::SortingAlgorithm};
 
 #[derive(Clone)]
 pub struct SharedData {
@@ -25,7 +22,7 @@ pub struct SharedData {
 impl SharedData {
     pub fn new() -> Self {
         let sorting_algorithms = SortList::new().list;
-        let tabs = vec!["sort", "reset", "quit"];
+        let tabs = ["sort", "reset", "quit"];
         let tabs = tabs.iter().map(|s| s.to_string()).collect();
 
         let mut pp_i = ListState::default();

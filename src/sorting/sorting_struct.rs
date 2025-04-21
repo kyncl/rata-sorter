@@ -16,9 +16,9 @@ impl SortingAlgorithm {
             description,
         }
     }
-    pub fn refresh(rendering_arr: &Arc<RwLock<Vec<usize>>>, array: &Vec<usize>) {
+    pub fn refresh(rendering_arr: &Arc<RwLock<Vec<usize>>>, array: &[usize]) {
         let mut write_guard = rendering_arr.write().unwrap();
-        *write_guard = array.clone();
+        *write_guard = array.to_owned();
     }
 }
 
@@ -54,7 +54,7 @@ impl Sorter for DebugSort {
         let mut arr = get_arr.read().unwrap().clone();
         while !arr.is_sorted() {
             arr.shuffle(&mut rand::rng());
-            SortingAlgorithm::refresh(&get_arr, &arr);
+            SortingAlgorithm::refresh(get_arr, &arr);
         }
     }
     fn clone_box(&self) -> Box<dyn Sorter> {
