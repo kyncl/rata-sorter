@@ -22,7 +22,7 @@ impl MergeSort {
     }
 
     pub fn merge(
-        arr: &mut Vec<usize>,
+        arr: &mut [usize],
         left: &[usize],
         right: &[usize],
         get_arr: &mut Arc<RwLock<Vec<usize>>>,

@@ -8,7 +8,7 @@ use std::{
 pub struct QuickSort {}
 impl QuickSort {
     pub fn get_pivot_i(
-        arr: &mut Vec<usize>,
+        arr: &mut [usize],
         low_i: isize,
         high_i: isize,
         get_arr: &mut Arc<RwLock<Vec<usize>>>,
